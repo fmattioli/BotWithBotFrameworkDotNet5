@@ -32,7 +32,7 @@ namespace Web.Bot.Bots
                 // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
-                    var response = MessageFactory.Text("VAI CORINTHIANS!");
+                    var response = MessageFactory.Text("Olá, seja bem vindo! Eu sou o Romarinho e vou te ajudar neste atendimento.");
                     await turnContext.SendActivityAsync(response, cancellationToken);
                     await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
                 }

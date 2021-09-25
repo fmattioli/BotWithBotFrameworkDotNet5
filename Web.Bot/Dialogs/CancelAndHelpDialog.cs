@@ -6,6 +6,7 @@
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Newtonsoft.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,6 +30,12 @@ namespace Web.Bot.Dialogs
                 return result;
             }
 
+            //Quando um submit é enviado, ele vem sem um texto, pois o usuário não digita nada, deste modo é necessário passar para o activity a payload do JSON que é gerado ao enviar um Form.
+            if (string.IsNullOrWhiteSpace(innerDc.Context.Activity.Text) && innerDc.Context.Activity.Value != null)
+            {
+                innerDc.Context.Activity.Text = JsonConvert.SerializeObject(innerDc.Context.Activity.Value);
+            }
+
             return await base.OnContinueDialogAsync(innerDc, cancellationToken);
         }
 
@@ -36,7 +43,8 @@ namespace Web.Bot.Dialogs
         {
             if (innerDc.Context.Activity.Type == ActivityTypes.Message)
             {
-                var text = innerDc.Context.Activity.Text.ToLowerInvariant();
+
+                var text = string.IsNullOrEmpty(innerDc.Context.Activity.Text) ? "" : innerDc.Context.Activity.Text.ToLowerInvariant();
 
                 switch (text)
                 {

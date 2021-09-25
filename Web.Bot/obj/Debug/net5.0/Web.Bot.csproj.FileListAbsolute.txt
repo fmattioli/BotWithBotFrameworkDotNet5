@@ -68,3 +68,4 @@ C:\EquipeWeb\Web.Bot\Web.Bot\obj\Debug\net5.0\ref\Web.Bot.dll
 C:\EquipeWeb\Web.Bot\Web.Bot\obj\Debug\net5.0\Web.Bot.pdb
 C:\EquipeWeb\Web.Bot\Web.Bot\obj\Debug\net5.0\Web.Bot.genruntimeconfig.cache
 C:\EquipeWeb\Web.Bot\Web.Bot\bin\Debug\net5.0\AdaptiveCards.dll
+C:\EquipeWeb\Web.Bot\Web.Bot\obj\Debug\net5.0\Web.Bot.csproj.AssemblyReference.cache

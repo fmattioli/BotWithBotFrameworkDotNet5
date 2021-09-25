@@ -1,0 +1,90 @@
+﻿{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "weight": "Bolder",
+      "text": "Consultar protocolo ou pedido de certidão",
+      "wrap": true,
+      "spacing": "None",
+      "fontType": "Default",
+      "horizontalAlignment": "Center",
+      "height": "stretch",
+      "size": "Medium",
+      "color": "Accent",
+      "separator": true
+    },
+    {
+      "type": "TextBlock",
+      "text": "Informe o protocolo e confira os últimos andamentos referentes ao seu título.",
+      "spacing": "Medium",
+      "wrap": true,
+      "height": "stretch",
+      "separator": true,
+      "weight": "Lighter",
+      "color": "Dark",
+      "horizontalAlignment": "Center"
+    }
+
+  ],
+  "actions": [
+
+    {
+      "type": "Action.ShowCard",
+      "title": "Utilizar",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "label": "Selecione o tipo de consulta: ",
+            "id": "chkTipo",
+            "type": "Input.ChoiceSet",
+            "value": "1",
+            "separator": true,
+            "choices": [
+              {
+                "title": "Registro de Imóveis",
+                "value": "1"
+              },
+              {
+                "title": "Tit. Doc. e Pes. Jur.",
+                "value": "2"
+              },
+              {
+                "title": "Certidão",
+                "value": "3"
+              }
+            ]
+          },
+          {
+            "type": "Input.Text",
+            "id": "txtProtocolo",
+            "label": "Protocolo",
+            "isRequired": true,
+            "errorMessage": "Informe o protocolo corretamente",
+            "placeholder": "Informe o número do protocolo",
+            "separator": true
+          },
+          {
+            "type": "Input.Text",
+            "id": "txtCodigo",
+            "label": "Código",
+            "isRequired": true,
+            "errorMessage": "Informe o código do protocolo corretamente",
+            "placeholder": "Informe o código do protocolo"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "OK"
+          }
+        ],
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+      },
+      "style": "positive"
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.3"
+}

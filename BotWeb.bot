@@ -1,18 +1,19 @@
 {
-    "name": "Testes",
+    "name": "BotWeb",
     "description": "",
     "services": [
         {
             "type": "endpoint",
             "name": "http://localhost:3978/api/messages",
-            "id": "5eab0a60-1cc7-11ec-8f0d-15f39dc05d9b",
+            "id": "251a55d0-1e07-11ec-8f0d-15f39dc05d9b",
             "appId": "6b3132d9-c1db-4423-b40d-17d3b278b337",
             "appPassword": "b7Bdw7cpQYbMIya8Fpgo1Wx7QD",
-            "endpoint": "http://localhost:3978/api/messages"
+            "endpoint": "http://localhost:3978/api/messages",
+            "channelService": "https://botframework.azure.us"
         }
     ],
     "padlock": "",
     "version": "2.0",
-    "path": "C:\\EquipeWeb\\Web.Bot\\Testes.bot",
+    "path": "C:\\EquipeWeb\\Web.Bot\\BotWeb.bot",
     "overrides": null
 }

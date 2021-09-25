@@ -17,6 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Web.Bot.CardsManager.Classes;
 using Web.Bot.CognitiveModels;
+using Web.Bot.Models;
 
 namespace Web.Bot.Dialogs
 {
@@ -57,28 +58,9 @@ namespace Web.Bot.Dialogs
                 return await stepContext.NextAsync(null, cancellationToken);
             }
 
-            var cardJson = cardManager.CriarAdaptiveCard("welcomeCard");
-            var cardAttachment = new Attachment()
-            {
-                ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(cardJson),
-            };
-
-            var opts = new PromptOptions
-            {
-                Prompt = new Activity
-                {
-                    AttachmentLayout = AttachmentLayoutTypes.Carousel,
-                    Attachments = new List<Attachment>() {
-                    cardAttachment,
-                    cardAttachment
-                },
-                    Type = ActivityTypes.Message,
-                    Text = "Please fill this form",
-                },
-            };
-
-            return await stepContext.PromptAsync(nameof(TextPrompt), opts, cancellationToken);
+            var messageText = "Antes de tudo, por favor, poderia me dizer seu nome para continuarmos? \U0001F600";
+            var promptMessage = MessageFactory.Text(messageText, messageText, InputHints.ExpectingInput);
+            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
         }
 
         private async Task<DialogTurnResult> ActStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -94,7 +76,11 @@ namespace Web.Bot.Dialogs
             switch (luisResult.TopIntent().intent)
             {
                 case Atendimento.Intent.Saudacao:
-                    return await stepContext.BeginDialogAsync(nameof(AtendimentoDialog), new AtendimentoDialog(), cancellationToken);
+                    var atendimentoDetalhes = new AtendimentoDetalhes()
+                    {
+                        NomeUsuario = luisResult.Text
+                    };
+                    return await stepContext.BeginDialogAsync(nameof(AtendimentoDialog), atendimentoDetalhes, cancellationToken);
 
                 default:
                     // Catch all for unhandled intents
@@ -107,32 +93,6 @@ namespace Web.Bot.Dialogs
             return await stepContext.NextAsync(null, cancellationToken);
         }
 
-        // Shows a warning if the requested From or To cities are recognized as entities but they are not in the Airport entity list.
-        // In some cases LUIS will recognize the From and To composite entities as a valid cities but the From and To Airport values
-        // will be empty if those entity values can't be mapped to a canonical item in the Airport.
-        private static async Task ShowWarningForUnsupportedCities(ITurnContext context, FlightBooking luisResult, CancellationToken cancellationToken)
-        {
-            var unsupportedCities = new List<string>();
-
-            var fromEntities = luisResult.FromEntities;
-            if (!string.IsNullOrEmpty(fromEntities.From) && string.IsNullOrEmpty(fromEntities.Airport))
-            {
-                unsupportedCities.Add(fromEntities.From);
-            }
-
-            var toEntities = luisResult.ToEntities;
-            if (!string.IsNullOrEmpty(toEntities.To) && string.IsNullOrEmpty(toEntities.Airport))
-            {
-                unsupportedCities.Add(toEntities.To);
-            }
-
-            if (unsupportedCities.Any())
-            {
-                var messageText = $"Sorry but the following airports are not supported: {string.Join(',', unsupportedCities)}";
-                var message = MessageFactory.Text(messageText, messageText, InputHints.IgnoringInput);
-                await context.SendActivityAsync(message, cancellationToken);
-            }
-        }
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {

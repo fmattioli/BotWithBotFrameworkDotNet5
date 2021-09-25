@@ -9,6 +9,7 @@ namespace Web.Bot.CognitiveModels
     {
         public string Text { get; set; }
         public string AlteredText { get; set; }
+        public string Nome { get; set; }
         public enum Intent
         {
             Saudacao,
