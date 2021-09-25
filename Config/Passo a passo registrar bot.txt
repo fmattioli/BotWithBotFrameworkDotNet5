@@ -1,0 +1,15 @@
+REFERÊNCIA: --https://docs.microsoft.com/pt-br/azure/bot-service/bot-builder-deploy-az-cli?view=azure-bot-service-4.0&tabs=csharp#deploy-via-arm-template-with-existing-resource-group
+PASSOS PARA PUBLICAR O BOT NO AZURE:
+1)NECESSÁRIO BAIXAR O AZURE CLI.
+2)AUTENTICAR VIA CLI.
+3)SETAR SUBSCRIPTION: az account set --subscription "bc0a90f3-a0ac-407b-8641-a09ca171caef"     
+4)GERAR APP ID E SALVAR SENHA:   az ad app create --display-name "ChatBotBalcao" --password "b7Bdw7cpQYbMIya8Fpgo1Wx7QD" --available-to-other-tenants    
+5)ARMAZENAR APP ID: 6b3132d9-c1db-4423-b40d-17d3b278b337 E PASSWORD:   b7Bdw7cpQYbMIya8Fpgo1Wx7QD     
+6)CRIAR GRUPO DE RECURSO: az deployment sub create --template-file "C:\EquipeWeb\Web.Bot\Web.Bot\DeploymentTemplates\template-with-new-rg.json" --location "westus" --parameters appId="6b3132d9-c1db-4423-b40d-17d3b278b337" appSecret="b7Bdw7cpQYbMIya8Fpgo1Wx7QD" botId="ChatBotBalcao" botSku=F0 newAppServicePlanName="ChatBotBalcaoAppServicePlain" newWebAppName="ChatBotBalcaoAppService" groupName="ChatBotBalcao" groupLocation="westus" newAppServicePlanLocation="westus" --name "equipewebname"
+7)ATUALIZAR CÓDIGO COM O APP ID E SENHA GERADAS
+8)GERAR ARQUIVO DE DEPLOY: az bot prepare-deploy --lang Csharp --code-dir "C:\EquipeWeb\Web.Bot\Web.Bot" --proj-file-path "Web.Bot.csproj"
+9)ZIPAR PASTA DO PROJETO EX: C:\EquipeWeb\Web.Bot ZIPAR O NIVEL ANTERIOR DE ONDE ESTÁ O CSPROJ
+10)SUBIR CÓDIGO NO AZURE: az webapp deployment source config-zip --resource-group "equipewebbots" --name "botequipewebappname" --src "C:\EquipeWeb\Web.Bot\Web.Bot.zip"
+11)IR AO AZURE E SETAR Enable Streaming Endpoint EM CONFIGURACOES.
+12)BAIXAR PUBLISH SETTINGS E PUBLICAR O BOT VIA VISUAL STUDIO.
+
